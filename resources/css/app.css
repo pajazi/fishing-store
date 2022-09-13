@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #f2f2f2;
+}
+
+.blue-bg {
+    background: linear-gradient(
+        130deg,
+        rgba(142, 204, 246, 1) 10%,
+        rgba(135, 189, 226, 1) 25%,
+        rgba(82, 167, 222, 1) 45%,
+        rgba(129, 187, 227, 1) 57%,
+        rgba(94, 177, 233, 1) 65%,
+        rgba(75, 169, 229, 1) 76%,
+        rgba(74, 167, 226, 1) 84%,
+        rgba(77, 162, 216, 1) 95%
+    );
+}
