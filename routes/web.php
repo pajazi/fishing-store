@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,21 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Home', [
-        'name' => 'Pajazi',
-        'frameworks' => [
-            'Laravel',
-            'Vue'
-        ]
+    return Inertia::render('Home');
+});
+
+Route::get('/users', function () {
+    // sleep(2);
+    return Inertia::render('Users', [
+        'time' => now()->toTimeString()
     ]);
 });
+
+Route::get('/settings', function () {
+    return Inertia::render('Settings');
+});
+
+Route::post('/logout', function (Request $request) {
+    dd($request['username']);
+});
+
