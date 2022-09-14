@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from "vue";
-import { usePage } from '@inertiajs/inertia-vue3'
+import { usePage, Head } from '@inertiajs/inertia-vue3'
 import Nav from "./Nav.vue";
 
 const user = reactive({
@@ -10,6 +10,7 @@ const user = reactive({
 </script>
 
 <template>
+    <Head title="My App Title"></Head>
     <section class="p-6 bg-gray-200">
         <header class="flex justify-between">
             <div class="flex items-center">
