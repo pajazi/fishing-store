@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
-    component: String
-})
+    component: String,
+});
 </script>
 
 <template>

@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
+use Request;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,17 @@ Route::get('/', function () {
 Route::get('/users', function () {
     // sleep(2);
     return Inertia::render('Users', [
-        'time' => now()->toTimeString()
+        'users' => User::query()
+        ->when(Request::input('search'), function ($query, $search) {
+            $query->where('email', 'like', "%{$search}%");
+        })
+        ->paginate(10)
+        ->withQueryString()
+        ->through(fn ($user) => [
+            'id' => $user->id,
+            'email' => $user->email
+        ]),
+        'filters' => Request::only(['search'])
     ]);
 });
 
@@ -33,4 +44,3 @@ Route::get('/settings', function () {
 Route::post('/logout', function (Request $request) {
     dd($request['username']);
 });
-
