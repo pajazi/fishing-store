@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Request;
+use Illuminate\Http\Request;
 use App\Models\User;
 
 /*
@@ -20,20 +20,20 @@ Route::get('/', function () {
     return Inertia::render('Home');
 });
 
-Route::get('/users', function () {
+Route::get('/users', function (Request $request) {
     // sleep(2);
-    return Inertia::render('Users', [
+    return Inertia::render('Users/Index', [
         'users' => User::query()
-        ->when(Request::input('search'), function ($query, $search) {
-            $query->where('email', 'like', "%{$search}%");
-        })
-        ->paginate(10)
-        ->withQueryString()
-        ->through(fn ($user) => [
-            'id' => $user->id,
-            'email' => $user->email
-        ]),
-        'filters' => Request::only(['search'])
+            ->when($request->input('search'), function ($query, $search) {
+                $query->where('email', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn ($user) => [
+                'id' => $user->id,
+                'email' => $user->email
+            ]),
+        'filters' => request(['search'])
     ]);
 });
 
@@ -41,6 +41,23 @@ Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
+Route::get('/users/create', function () {
+    return Inertia::render('Users/Create');
+});
+
 Route::post('/logout', function (Request $request) {
     dd($request['username']);
+});
+
+Route::post('/users', function (Request $request) {
+    $attributes = $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|'
+    ]);
+
+    User::create($attributes);
+
+    //return with Inertia
+    return redirect('/users');
 });
