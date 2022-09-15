@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
+import { debounce } from "lodash";
 
 const props = defineProps({
     users: Object,
@@ -9,13 +10,16 @@ const props = defineProps({
 
 let search = ref(props.filters?.search || "");
 
-watch(search, (value) => {
-    Inertia.get(
-        "/users",
-        { search: value },
-        { preserveState: true, replace: true }
-    ); //Included the query string
-});
+watch(
+    search,
+    debounce((value) => {
+        Inertia.get(
+            "/users",
+            { search: value },
+            { preserveState: true, replace: true }
+        ); //Included the query string
+    }, 500)
+);
 </script>
 
 <template>
