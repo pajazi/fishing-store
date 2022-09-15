@@ -22,7 +22,6 @@ import NavLink from "./NavLink.vue";
                     href="logout"
                     method="post"
                     as="button"
-                    :data="{ username: 'pajazi' }"
                 >
                     Log Out
                 </NavLink>
